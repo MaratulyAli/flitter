@@ -1,0 +1,51 @@
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #sidenav mode="side" opened class="sidenav">
+        <div class="d-flex flex-column justify-content-between h-100">
+            <div>
+                <img routerLink="." [src]="env.assets.images.logoBlack" class="logo cursor-pointer">
+
+                <mat-nav-list>
+                    <!-- home -->
+                    <mat-list-item routerLink="/">
+                        <mat-icon matListIcon>home</mat-icon>
+                        <a matLine>Home</a>
+                    </mat-list-item>
+                    <!-- profile -->
+                    <mat-list-item routerLink="/profile">
+                        <mat-icon matListIcon>person</mat-icon>
+                        <a matLine>Profile</a>
+                    </mat-list-item>
+                </mat-nav-list>
+
+                <!-- fleet -->
+                <button *ngIf="isAuthenticated" mat-flat-button color="primary" type="button" class="fleet-button"
+                    (click)="fleet()">
+                    Fleet
+                </button>
+            </div>
+
+            <!-- account -->
+            <mat-list *ngIf="isAuthenticated">
+                <app-loading-spinner *ngIf="isLoadingUser"></app-loading-spinner>
+
+                <mat-list-item *ngIf="!isLoadingUser">
+                    <img matListAvatar [src]="me.avatarUrl | userAvatar" class="avatar">
+                    <div matLine class="text-medium">{{me.firstName}} {{me.lastName}}</div>
+                    <div matLine class="text-muted">@{{me.userName}}</div>
+
+                    <button mat-icon-button type="button" (click)="logout()">
+                        <mat-icon>logout</mat-icon>
+                    </button>
+                </mat-list-item>
+            </mat-list>
+        </div>
+    </mat-sidenav>
+
+    <mat-sidenav-content class="sidenav-content d-flex">
+        <div class="main-content">
+            <router-outlet></router-outlet>
+        </div>
+
+        <app-right-menu></app-right-menu>
+    </mat-sidenav-content>
+</mat-sidenav-container>

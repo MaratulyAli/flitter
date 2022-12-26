@@ -1,0 +1,23 @@
+.container {
+    margin-top: 20px;
+}
+
+.new-post {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    padding: 20px;
+
+    .new-post-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        margin-right: 40px;
+    }
+
+    .new-post-placeholder {
+        margin-bottom: 0;
+    }
+
+    .new-post-button {
+        height: 36px;
+    }
+}

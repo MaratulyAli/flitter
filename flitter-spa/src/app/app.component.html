@@ -1,0 +1,5 @@
+<div *ngIf="isLoading" class="w-100 h-100 d-flex justify-content-center align-items-center">
+    <img [src]="env.assets.images.logoBlack" class="logo">
+</div>
+
+<app-layout *ngIf="!isLoading"></app-layout>

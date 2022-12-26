@@ -1,0 +1,22 @@
+<div mat-dialog-title class="d-flex">
+    <h3 class="text-medium mt-2">Confirm the action</h3>
+
+    <div class="space-between"></div>
+
+    <button mat-icon-button type="button" [mat-dialog-close]="false" class="text-muted ms-3">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<mat-dialog-content class="mat-typography">
+    <p>
+        Are you sure?
+    </p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button type="button" [mat-dialog-close]="false">
+        Cancel
+    </button>
+    <button mat-flat-button color="primary" cdkFocusInitial [mat-dialog-close]="true">
+        OK
+    </button>
+</mat-dialog-actions>

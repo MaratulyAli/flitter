@@ -1,0 +1,94 @@
+<mat-card *ngFor="let post of posts" class="post-card">
+    <mat-card-header>
+        <img mat-card-avatar [src]="post.user.avatarUrl | userAvatar" class="post-header-image">
+        <mat-card-title>
+            <p>{{post.user.firstName + ' ' + post.user.lastName}}</p>
+        </mat-card-title>
+        <mat-card-subtitle>
+            {{post.createdAt | date}}
+        </mat-card-subtitle>
+
+        <div class="space-between"></div>
+
+        <button *ngIf="post.userId === me?.id" mat-icon-button [matMenuTriggerFor]="postActionsMenu" type="button"
+            class="text-muted">
+            <mat-icon>more_horiz</mat-icon>
+
+            <mat-menu #postActionsMenu="matMenu">
+                <button mat-menu-item (click)="edit(post.id)">
+                    <mat-icon>edit</mat-icon>
+                    <span>Edit</span>
+                </button>
+                <button mat-menu-item type="button" (click)="remove(post.id)">
+                    <mat-icon>delete_outline</mat-icon>
+                    <span>Remove</span>
+                </button>
+            </mat-menu>
+        </button>
+    </mat-card-header>
+    <img *ngIf="post.images" mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+        alt="Photo of a Shiba Inu">
+    <mat-card-content>
+        <h3>
+            {{post.text}}
+        </h3>
+
+        <!-- poll -->
+        <ng-container *ngIf="post.poll">
+            <!-- if not voted -->
+            <ng-container *ngIf="!isVoted(post)">
+                <button *ngFor="let option of post.poll.options" [disabled]="optionsDisabled" mat-stroked-button
+                    type="button" class="w-100 mb-2" (click)="vote(post.id, post.poll.id, option.id)">
+                    {{option.text}}
+                </button>
+            </ng-container>
+
+            <!-- if voted -->
+            <ng-container *ngIf="isVoted(post)">
+                <div *ngFor="let option of post.poll.options">
+                    <div class="d-flex align-items-center">
+                        <div class="left">
+                            {{calculatePercentage(option.votesCount, post.poll.options)}}%
+                        </div>
+                        <div>
+                            {{option.text}}
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="left">
+                            <mat-icon *ngIf="option.voted" class="user-selected">check_circle</mat-icon>
+                        </div>
+                        <mat-progress-bar class="progress" color="primary" mode="determinate"
+                            [value]="calculatePercentage(option.votesCount, post.poll.options)">
+                        </mat-progress-bar>
+                    </div>
+                </div>
+            </ng-container>
+        </ng-container>
+    </mat-card-content>
+    <mat-card-actions>
+        <div class="d-flex align-items-center">
+
+            <div class="d-flex align-items-center">
+                <button mat-icon-button>
+                    <mat-icon>chat_bubble_outline</mat-icon>
+                </button>
+                0
+            </div>
+            <div class="d-flex align-items-center">
+                <button mat-icon-button>
+                    <mat-icon>repeat</mat-icon>
+                </button>
+                0
+            </div>
+            <div class="d-flex align-items-center">
+                <button #likeButton mat-icon-button (click)="like(post.id, likeButton)">
+                    <mat-icon *ngIf="!post.liked">favorite_outline</mat-icon>
+                    <mat-icon *ngIf="post.liked" color="warn">favorite</mat-icon>
+                </button>
+                {{post.likesCount}}
+            </div>
+
+        </div>
+    </mat-card-actions>
+</mat-card>

@@ -1,0 +1,54 @@
+<div class="profile-intro d-flex">
+    <img src="https://material.angular.io/assets/img/examples/shiba1.jpg" class="user-avatar">
+
+    <div>
+        <div class="d-flex">
+            <h3>
+                Ali Maratuly
+            </h3>
+
+            <button mat-stroked-button type="button" routerLink="/profile-settings">
+                Edit profile
+            </button>
+        </div>
+
+        <p>@profile_id</p>
+        <p>New York, USA</p>
+        <p>Joined May 2011</p>
+        <p>Born on Jan 17, 1991</p>
+
+        <h4>Following 162</h4>
+        <h4>Followers 537</h4>
+    </div>
+</div>
+
+<nav mat-tab-nav-bar mat-align-tabs="center">
+    <a mat-tab-link routerLink="flits">Flits</a>
+    <a mat-tab-link routerLink="reflits">Reflits</a>
+    <a mat-tab-link routerLink="liked">Liked</a>
+</nav>
+
+<mat-card *ngFor="let post of posts" class="example-card">
+    <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>{{post.user.firstName + ' ' + post.user.lastName}}</mat-card-title>
+        <mat-card-subtitle>{{post.createdAt | date}}</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+    <mat-card-content>
+        <p>
+            {{post.text}}
+        </p>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-icon-button>
+            <mat-icon>reply</mat-icon>
+        </button>
+        <button mat-icon-button>
+            <mat-icon>repeat</mat-icon>
+        </button>
+        <button mat-icon-button>
+            <mat-icon>favorite</mat-icon>
+        </button>
+    </mat-card-actions>
+</mat-card>F

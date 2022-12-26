@@ -1,0 +1,21 @@
+<!-- new post -->
+<div *ngIf="isAuthenticated" class="new-post d-flex align-items-center w-100 bg-white">
+    <app-loading-spinner *ngIf="isMeLoading" class="new-post-avatar"></app-loading-spinner>
+    <img *ngIf="!isMeLoading" [src]="me.avatarUrl | userAvatar" class="new-post-avatar">
+    <h2 class="new-post-placeholder text-muted">What's happening?</h2>
+
+    <div class="space-between"></div>
+
+    <button mat-flat-button color="primary" class="new-post-button" (click)="fleet()">
+        Fleet
+    </button>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
+            <app-posts-view *ngIf="!isLoading" [posts]="posts"></app-posts-view>
+        </div>
+    </div>
+</div>

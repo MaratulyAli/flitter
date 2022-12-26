@@ -1,0 +1,23 @@
+<div class="w-100 p-4">
+    <button *ngIf="!isAuthenticated" mat-stroked-button type="button" color="primary" class="w-100 mb-2"
+        (click)="login()">
+        Sign up
+    </button>
+    <button *ngIf="!isAuthenticated" mat-flat-button type="button" color="primary" class="w-100" (click)="login()">
+        Login
+    </button>
+</div>
+
+<mat-list>
+    <mat-list-item *ngFor="let user of usersToFollow">
+        <img matListAvatar [src]="'https://material.angular.io/assets/img/examples/shiba1.jpg'"
+            [alt]="user.firstName + ' ' +user.lastName">
+        <div matLine class="d-flex justify-content-between">
+            <p>{{user.firstName + ' ' + user.lastName}}</p>
+            <p class="text-small text-muted">@{{user.userName}}</p>
+        </div>
+        <button matLine mat-flat-button color="primary" (click)="followUser(user.id)">
+            Follow
+        </button>
+    </mat-list-item>
+</mat-list>

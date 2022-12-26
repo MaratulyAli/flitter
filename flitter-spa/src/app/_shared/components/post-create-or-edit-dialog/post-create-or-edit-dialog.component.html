@@ -1,0 +1,93 @@
+<app-loading-spinner *ngIf="isBusy"></app-loading-spinner>
+
+<form *ngIf="!isBusy" [formGroup]="postForm" (ngSubmit)="submit()">
+    <div mat-dialog-title>
+        <button mat-icon-button type="button" mat-dialog-close>
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <mat-dialog-content class="mat-typography">
+        <!-- text -->
+        <mat-form-field appearance="standard" class="w-100">
+            <textarea matInput cdkTextareaAutosize cdkFocusInitial formControlName="text" autocomplete="off"
+                placeholder="What's happening?"></textarea>
+            <mat-hint align="end">{{postFormControls.text.value.length}}/1000</mat-hint>
+            <mat-error *ngIf="postFormControls.text.errors?.required">
+                Field is required
+            </mat-error>
+            <mat-error *ngIf="postFormControls.text.errors?.maxlength">
+                Field limit exceeded {{1000-postFormControls.text.value.length}}
+            </mat-error>
+        </mat-form-field>
+
+        <!-- poll -->
+        <mat-card *ngIf="pollEnabled" [formGroup]="pollForm" class="poll app-border mt-2 mb-2">
+            <mat-card-header>
+                <div class="space-between"></div>
+                <button mat-icon-button type="button" (click)="removePoll()">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-card-header>
+
+            <mat-card-content>
+                <div class="d-flex align-items-center">
+                    <!-- expiresAt -->
+                    <mat-form-field appearance="fill">
+                        <mat-label>Expires at</mat-label>
+                        <input matInput formControlName="expiresAt" [matDatepicker]="dp" [disabled]="true">
+                        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                        <mat-datepicker #dp [disabled]="this.pollFormControls.pollNotExpire.value"></mat-datepicker>
+                    </mat-form-field>
+
+                    <!-- disable expiresAt -->
+                    <mat-checkbox formControlName="pollNotExpire" color="primary" class="ms-4 mb-3">
+                        Poll will not expire
+                    </mat-checkbox>
+                </div>
+
+                <!-- options -->
+                <ng-container formArrayName="options">
+                    <ng-container *ngFor="let optionForm of pollFormControls.options.controls; let i = index">
+                        <div [formGroupName]="i" class="d-flex align-items-center">
+                            <mat-form-field appearance="standard" class="w-100">
+                                <mat-label>Option {{i+1}}</mat-label>
+                                <input matInput formControlName="text" autocomplete="off" required>
+                                <mat-hint align="end">{{$any(optionForm).controls.text.value.length}}/100</mat-hint>
+                                <mat-error *ngIf="$any(optionForm).controls.text.errors?.required">
+                                    Field is required
+                                </mat-error>
+                                <mat-error *ngIf="$any(optionForm).controls.text.errors?.maxlength">
+                                    Field limit exceeded {{100-$any(optionForm).controls.text.value.length}}
+                                </mat-error>
+                            </mat-form-field>
+
+                            <button *ngIf="i > 0" mat-icon-button type="button"
+                                class="d-flex justify-content-center align-items-center" (click)="removeOption(i)">
+                                <mat-icon color="error">delete_outline</mat-icon>
+                            </button>
+                        </div>
+                    </ng-container>
+
+                    <div class="w-100 d-flex justify-content-end">
+                        <button mat-button type="button" class="d-flex align-items-center" (click)="addOption()">
+                            <mat-icon>add</mat-icon> Add option
+                        </button>
+                    </div>
+                </ng-container>
+            </mat-card-content>
+        </mat-card>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <div class="d-flex w-100">
+            <button mat-icon-button [disabled]="pollEnabled" type="button" (click)="addPoll()">
+                <mat-icon class="material-icons-outlined">poll</mat-icon>
+            </button>
+
+            <div class="space-between"></div>
+
+            <button mat-flat-button color="primary" type="submit">
+                {{dialogData ? 'Update' : 'Fleet'}}
+            </button>
+        </div>
+    </mat-dialog-actions>
+</form>
